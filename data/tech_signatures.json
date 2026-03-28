@@ -1,0 +1,188 @@
+{
+  "WordPress": {
+    "headers": [],
+    "cookies": ["wordpress_", "wp-settings-"],
+    "body_patterns": ["/wp-content/", "/wp-includes/", "wp-json", "wp-embed.min.js"],
+    "meta_generators": ["WordPress"]
+  },
+  "Drupal": {
+    "headers": ["X-Generator: Drupal", "X-Drupal-Cache", "X-Drupal-Dynamic-Cache"],
+    "cookies": ["Drupal.visitor."],
+    "body_patterns": ["/sites/default/files/", "/modules/", "Drupal.settings", "drupal.js"],
+    "meta_generators": ["Drupal"]
+  },
+  "Joomla": {
+    "headers": [],
+    "cookies": [],
+    "body_patterns": ["/media/jui/", "/templates/", "option=com_", "/components/com_"],
+    "meta_generators": ["Joomla"]
+  },
+  "Magento": {
+    "headers": ["X-Magento-Cache-Control", "X-Magento-Tags"],
+    "cookies": ["PHPSESSID", "frontend", "mage-cache-sessid"],
+    "body_patterns": ["/skin/frontend/", "/js/mage/", "Magento_", "/pub/static/", "mage/cookies"],
+    "meta_generators": []
+  },
+  "Shopify": {
+    "headers": ["X-ShopId", "X-ShopifyAnalytics"],
+    "cookies": ["_shopify_y", "_shopify_s", "shopify_pay_redirect"],
+    "body_patterns": ["cdn.shopify.com", "Shopify.theme", "/collections/", "ShopifyAnalytics"],
+    "meta_generators": []
+  },
+  "Wix": {
+    "headers": [],
+    "cookies": ["_wix_browser_sess"],
+    "body_patterns": ["static.wixstatic.com", "wix-code-sdk", "wixEmbedsAPI", "_wixCssComponentsMap"],
+    "meta_generators": ["Wix.com Website Builder"]
+  },
+  "Squarespace": {
+    "headers": [],
+    "cookies": ["ss_cid", "ss_cpvisit"],
+    "body_patterns": ["static.squarespace.com", "squarespace-cdn.com", "Squarespace.afterBodyLoad"],
+    "meta_generators": ["Squarespace"]
+  },
+  "Webflow": {
+    "headers": [],
+    "cookies": [],
+    "body_patterns": ["assets.website-files.com", "webflow.js", "w-webflow-badge"],
+    "meta_generators": ["Webflow"]
+  },
+  "Ghost": {
+    "headers": ["X-Ghost-Cache-Status"],
+    "cookies": ["ghost-members-ssr"],
+    "body_patterns": ["ghost/core", "/ghost/api/", "content-api", "ghost.min.js"],
+    "meta_generators": ["Ghost"]
+  },
+  "Django": {
+    "headers": ["X-Frame-Options: SAMEORIGIN"],
+    "cookies": ["csrftoken", "sessionid"],
+    "body_patterns": ["csrfmiddlewaretoken", "__django_admin"],
+    "meta_generators": []
+  },
+  "Rails": {
+    "headers": ["X-Powered-By: Phusion Passenger"],
+    "cookies": ["_session_id", "_rails-app_session"],
+    "body_patterns": ["action_cable", "rails-ujs", "csrf-token"],
+    "meta_generators": []
+  },
+  "Laravel": {
+    "headers": [],
+    "cookies": ["laravel_session", "XSRF-TOKEN"],
+    "body_patterns": ["laravel_session", "app.js", "/vendor/laravel/"],
+    "meta_generators": []
+  },
+  "Express": {
+    "headers": ["X-Powered-By: Express"],
+    "cookies": ["connect.sid"],
+    "body_patterns": [],
+    "meta_generators": []
+  },
+  "Next.js": {
+    "headers": ["X-Powered-By: Next.js"],
+    "cookies": [],
+    "body_patterns": ["/_next/static/", "__NEXT_DATA__", "next/dist", "_next/chunks"],
+    "meta_generators": []
+  },
+  "Nuxt.js": {
+    "headers": [],
+    "cookies": [],
+    "body_patterns": ["/_nuxt/", "__NUXT__", "nuxt.min.js", "nuxt-link"],
+    "meta_generators": []
+  },
+  "React": {
+    "headers": [],
+    "cookies": [],
+    "body_patterns": ["react.development.js", "react.production.min.js", "react-dom", "__reactFiber", "data-reactroot"],
+    "meta_generators": []
+  },
+  "Vue": {
+    "headers": [],
+    "cookies": [],
+    "body_patterns": ["vue.min.js", "vue.runtime.min.js", "__vue__", "data-v-"],
+    "meta_generators": []
+  },
+  "Angular": {
+    "headers": [],
+    "cookies": [],
+    "body_patterns": ["ng-version=", "angular.min.js", "ng-app", "[_nghost-", "[_ngcontent-"],
+    "meta_generators": []
+  },
+  "Cloudflare": {
+    "headers": ["CF-RAY", "CF-Cache-Status", "Server: cloudflare"],
+    "cookies": ["__cflb", "__cfuid", "cf_clearance"],
+    "body_patterns": ["cdn-cgi/trace", "cdn-cgi/challenge-platform"],
+    "meta_generators": []
+  },
+  "Nginx": {
+    "headers": ["Server: nginx"],
+    "cookies": [],
+    "body_patterns": ["nginx/", "<center>nginx</center>"],
+    "meta_generators": []
+  },
+  "Apache": {
+    "headers": ["Server: Apache"],
+    "cookies": [],
+    "body_patterns": ["Apache/", "<address>Apache"],
+    "meta_generators": []
+  },
+  "IIS": {
+    "headers": ["Server: Microsoft-IIS", "X-Powered-By: ASP.NET", "X-AspNet-Version"],
+    "cookies": ["ASP.NET_SessionId"],
+    "body_patterns": ["__VIEWSTATE", "__EVENTVALIDATION", "WebResource.axd"],
+    "meta_generators": []
+  },
+  "PHP": {
+    "headers": ["X-Powered-By: PHP"],
+    "cookies": ["PHPSESSID"],
+    "body_patterns": [],
+    "meta_generators": []
+  },
+  "Python": {
+    "headers": ["X-Powered-By: Python", "Server: Werkzeug", "Server: gunicorn", "Server: waitress"],
+    "cookies": [],
+    "body_patterns": [],
+    "meta_generators": []
+  },
+  "Ruby": {
+    "headers": ["X-Powered-By: Phusion Passenger", "Server: Passenger"],
+    "cookies": [],
+    "body_patterns": [],
+    "meta_generators": []
+  },
+  "Java": {
+    "headers": ["X-Powered-By: Servlet", "Server: Apache Tomcat", "Server: JBoss"],
+    "cookies": ["JSESSIONID"],
+    "body_patterns": ["jsf:", "javax.faces", "com.sun.faces"],
+    "meta_generators": []
+  },
+  "AWS S3": {
+    "headers": ["Server: AmazonS3", "x-amz-request-id", "x-amz-id-2"],
+    "cookies": [],
+    "body_patterns": ["s3.amazonaws.com", "AmazonS3", "<Code>NoSuchBucket</Code>"],
+    "meta_generators": []
+  },
+  "CloudFront": {
+    "headers": ["Via: CloudFront", "X-Cache: Hit from cloudfront", "X-Amz-Cf-Id"],
+    "cookies": ["CloudFront-Policy", "CloudFront-Key-Pair-Id"],
+    "body_patterns": ["cloudfront.net"],
+    "meta_generators": []
+  },
+  "Vercel": {
+    "headers": ["Server: Vercel", "X-Vercel-Id", "X-Vercel-Cache"],
+    "cookies": [],
+    "body_patterns": ["vercel.app", "_vercel"],
+    "meta_generators": []
+  },
+  "Netlify": {
+    "headers": ["Server: Netlify", "X-Nf-Request-Id"],
+    "cookies": [],
+    "body_patterns": ["netlify.app", "netlify.com"],
+    "meta_generators": []
+  },
+  "GitHub Pages": {
+    "headers": ["Server: GitHub.com"],
+    "cookies": [],
+    "body_patterns": ["github.io", "githubusercontent.com"],
+    "meta_generators": []
+  }
+}

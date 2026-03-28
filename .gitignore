@@ -1,0 +1,62 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+.Python
+env/
+venv/
+.venv/
+ENV/
+pip-wheel-metadata/
+.installed.cfg
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+
+# Type checking
+.mypy_cache/
+.dmypy.json
+.pytype/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Project specific — NEVER commit these
+config.toml
+*.db
+*.sqlite
+*.sqlite3
+~/.osint/
+
+# API keys / secrets
+.env
+.env.*
+secrets.toml
+
+# Output files
+reports/
+*.pdf
+*.html
+sessions/
+
+# Playwright
+playwright/.auth/
+
+# Logs
+*.log
+logs/

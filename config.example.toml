@@ -1,0 +1,27 @@
+[keys]
+hibp_api_key = ""
+ipinfo_token = ""
+numverify_key = ""
+shodan_api_key = ""
+censys_api_id = ""
+censys_api_secret = ""
+virustotal_api_key = ""
+abuseipdb_api_key = ""
+securitytrails_api_key = ""
+hunter_api_key = ""
+anthropic_api_key = ""
+
+[scan]
+default_timeout = 10
+default_workers = 20
+user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+passive_only = true
+
+[output]
+color = true
+date_format = "%Y-%m-%d %H:%M:%S UTC"
+
+[proxy]
+enabled = false
+url = ""
+tor_socks = "socks5://127.0.0.1:9050"

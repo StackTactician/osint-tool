@@ -1,0 +1,292 @@
+[
+  {
+    "name": "GitHub",
+    "url_template": "https://github.com/{}",
+    "error_type": "status_code",
+    "error_code": 404,
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["developer", "code"]
+  },
+  {
+    "name": "GitLab",
+    "url_template": "https://gitlab.com/{}",
+    "error_type": "status_code",
+    "error_code": 404,
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["developer", "code"]
+  },
+  {
+    "name": "Twitter",
+    "url_template": "https://x.com/{}",
+    "error_type": "body_text",
+    "error_text": "This account doesn\u2019t exist",
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["social", "microblogging"]
+  },
+  {
+    "name": "Instagram",
+    "url_template": "https://www.instagram.com/{}/",
+    "error_type": "body_text",
+    "error_text": "\"status\":\"fail\"",
+    "headers": {"Accept-Language": "en-US,en;q=0.9", "Accept": "text/html,application/xhtml+xml"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["social", "photo"]
+  },
+  {
+    "name": "Reddit",
+    "url_template": "https://www.reddit.com/user/{}",
+    "error_type": "body_text",
+    "error_text": "Sorry, nobody on Reddit goes by that name.",
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["social", "forum"]
+  },
+  {
+    "name": "TikTok",
+    "url_template": "https://www.tiktok.com/@{}",
+    "error_type": "body_text",
+    "error_text": "\"statusCode\":10202",
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 15,
+    "tags": ["social", "video"]
+  },
+  {
+    "name": "LinkedIn",
+    "url_template": "https://www.linkedin.com/in/{}/",
+    "error_type": "response_url",
+    "error_url_pattern": "/authwall",
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["social", "professional"]
+  },
+  {
+    "name": "Pinterest",
+    "url_template": "https://www.pinterest.com/{}/",
+    "error_type": "status_code",
+    "error_code": 404,
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["social", "photo"]
+  },
+  {
+    "name": "Tumblr",
+    "url_template": "https://{}.tumblr.com/",
+    "error_type": "body_text",
+    "error_text": "There\u2019s nothing here.",
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["social", "blog"]
+  },
+  {
+    "name": "Medium",
+    "url_template": "https://medium.com/@{}",
+    "error_type": "status_code",
+    "error_code": 404,
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["blog", "writing"]
+  },
+  {
+    "name": "Dev.to",
+    "url_template": "https://dev.to/{}",
+    "error_type": "status_code",
+    "error_code": 404,
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["developer", "blog"]
+  },
+  {
+    "name": "Mastodon",
+    "url_template": "https://mastodon.social/@{}",
+    "error_type": "status_code",
+    "error_code": 404,
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["social", "fediverse"]
+  },
+  {
+    "name": "HackerNews",
+    "url_template": "https://hacker-news.firebaseio.com/v0/user/{}.json",
+    "error_type": "body_text",
+    "error_text": "null",
+    "headers": {},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["developer", "forum"]
+  },
+  {
+    "name": "Steam",
+    "url_template": "https://steamcommunity.com/id/{}",
+    "error_type": "body_text",
+    "error_text": "The specified profile could not be found.",
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["gaming"]
+  },
+  {
+    "name": "Twitch",
+    "url_template": "https://www.twitch.tv/{}",
+    "error_type": "body_text",
+    "error_text": "\"status\":404",
+    "headers": {"Accept-Language": "en-US,en;q=0.9", "Client-ID": "kimne78kx3ncx6brgo4mv6wki5h1ko"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["social", "gaming", "streaming"]
+  },
+  {
+    "name": "YouTube",
+    "url_template": "https://www.youtube.com/@{}",
+    "error_type": "body_text",
+    "error_text": "This channel doesn\u2019t exist",
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["social", "video"]
+  },
+  {
+    "name": "Keybase",
+    "url_template": "https://keybase.io/{}",
+    "error_type": "status_code",
+    "error_code": 404,
+    "headers": {},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["developer", "crypto", "identity"]
+  },
+  {
+    "name": "Pastebin",
+    "url_template": "https://pastebin.com/u/{}",
+    "error_type": "body_text",
+    "error_text": "Not Found (#404)",
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["developer", "paste"]
+  },
+  {
+    "name": "Gravatar",
+    "url_template": "https://en.gravatar.com/{}",
+    "error_type": "status_code",
+    "error_code": 404,
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["social", "identity"]
+  },
+  {
+    "name": "Flickr",
+    "url_template": "https://www.flickr.com/people/{}",
+    "error_type": "body_text",
+    "error_text": "Page Not Found",
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["social", "photo"]
+  },
+  {
+    "name": "DockerHub",
+    "url_template": "https://hub.docker.com/u/{}",
+    "error_type": "status_code",
+    "error_code": 404,
+    "headers": {"Accept": "application/json"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["developer", "containers"]
+  },
+  {
+    "name": "PyPI",
+    "url_template": "https://pypi.org/user/{}/",
+    "error_type": "status_code",
+    "error_code": 404,
+    "headers": {},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["developer", "python"]
+  },
+  {
+    "name": "npm",
+    "url_template": "https://www.npmjs.com/~{}",
+    "error_type": "status_code",
+    "error_code": 404,
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["developer", "javascript"]
+  },
+  {
+    "name": "Spotify",
+    "url_template": "https://open.spotify.com/user/{}",
+    "error_type": "body_text",
+    "error_text": "\"error\":{\"status\":404",
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["social", "music"]
+  },
+  {
+    "name": "Snapchat",
+    "url_template": "https://www.snapchat.com/add/{}",
+    "error_type": "body_text",
+    "error_text": "Sorry, we couldn\u2019t find that Snapchatter",
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["social", "photo"]
+  },
+  {
+    "name": "Discord",
+    "url_template": "https://dsc.bio/{}",
+    "error_type": "status_code",
+    "error_code": 404,
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["social", "gaming"]
+  },
+  {
+    "name": "Telegram",
+    "url_template": "https://fragment.com/username/{}",
+    "error_type": "body_text",
+    "error_text": "not found",
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["social", "messaging"]
+  },
+  {
+    "name": "Codeberg",
+    "url_template": "https://codeberg.org/{}",
+    "error_type": "status_code",
+    "error_code": 404,
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["developer", "code"]
+  },
+  {
+    "name": "Bitbucket",
+    "url_template": "https://bitbucket.org/{}",
+    "error_type": "status_code",
+    "error_code": 404,
+    "headers": {"Accept-Language": "en-US,en;q=0.9"},
+    "request_method": "GET",
+    "timeout": 10,
+    "tags": ["developer", "code"]
+  }
+]
