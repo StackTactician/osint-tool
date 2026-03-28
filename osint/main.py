@@ -50,6 +50,7 @@ def _register_modules(cli_group: click.Group) -> None:
         ("osint.modules.domain.commands", "domain"),
         ("osint.modules.ip.commands", "ip"),
         ("osint.modules.social.commands", "social"),
+        ("osint.modules.org.commands", "org"),
     ]
     for module_path, attr in modules:
         try:
@@ -180,7 +181,11 @@ def sessions() -> None:
 @click.pass_context
 def sessions_list(ctx: click.Context) -> None:
     """List all saved sessions."""
-    console.print("[yellow]Coming soon:[/yellow] sessions list")
+    import asyncio
+    from osint.sessions import list_sessions, format_sessions_list
+
+    sessions_data = asyncio.run(list_sessions())
+    format_sessions_list(sessions_data)
 
 
 @sessions.command("resume")
@@ -188,7 +193,11 @@ def sessions_list(ctx: click.Context) -> None:
 @click.pass_context
 def sessions_resume(ctx: click.Context, name: str) -> None:
     """Resume a saved session by name."""
-    console.print("[yellow]Coming soon:[/yellow] sessions resume")
+    import asyncio
+    from osint.sessions import get_session_findings, format_session_detail
+
+    data = asyncio.run(get_session_findings(name))
+    format_session_detail(data)
 
 
 @sessions.command("diff")
@@ -197,7 +206,11 @@ def sessions_resume(ctx: click.Context, name: str) -> None:
 @click.pass_context
 def sessions_diff(ctx: click.Context, session_a: str, session_b: str) -> None:
     """Show differences between two sessions."""
-    console.print("[yellow]Coming soon:[/yellow] sessions diff")
+    import asyncio
+    from osint.sessions import diff_sessions, format_diff
+
+    diff = asyncio.run(diff_sessions(session_a, session_b))
+    format_diff(diff)
 
 
 # ---------------------------------------------------------------------------
@@ -230,57 +243,148 @@ def cache_clear(ctx: click.Context, clear_all: bool, key: str | None) -> None:
 # ---------------------------------------------------------------------------
 
 @cli.command("report")
-@click.option("--session", "session_name", default=None, help="Session to generate report from.")
+@click.option("--session", "session_name", required=True, help="Session name to report on.")
 @click.option(
     "--format",
     "fmt",
-    type=click.Choice(["html", "pdf", "json", "markdown"]),
+    type=click.Choice(["html", "pdf", "json"]),
     default="html",
     show_default=True,
     help="Output format.",
 )
-@click.option("--output", "-o", type=click.Path(), default=None, help="Output file path.")
+@click.option("--output", "-o", default=None, help="Output file path (default: auto-named).")
 @click.pass_context
-def report(ctx: click.Context, session_name: str | None, fmt: str, output: str | None) -> None:
+def report_cmd(ctx: click.Context, session_name: str, fmt: str, output: str | None) -> None:
     """Generate a report from scan results."""
-    console.print("[yellow]Coming soon:[/yellow] report generation")
+    import asyncio
+    from osint.reports.html_report import generate_html_report
+    from osint.reports.pdf_report import generate_pdf_report
+    from osint.reports.builder import build_report_data
+    from osint.output import print_success, print_error, export_json
+
+    if output is None:
+        output = f"osint-report-{session_name}.{fmt}"
+
+    async def run() -> None:
+        if fmt == "html":
+            path = await generate_html_report(session_name, output)
+            print_success(f"HTML report saved: {path}")
+        elif fmt == "pdf":
+            path = await generate_pdf_report(session_name, output)
+            print_success(f"PDF report saved: {path}")
+        elif fmt == "json":
+            data = await build_report_data(session_name)
+            export_json(data, output)
+            print_success(f"JSON report saved: {output}")
+
+    asyncio.run(run())
 
 
 @cli.command("graph")
-@click.option("--session", "session_name", default=None, help="Session to visualize.")
+@click.option("--session", "session_name", required=True, help="Session to visualize.")
 @click.option(
     "--format",
     "fmt",
-    type=click.Choice(["html", "png", "json"]),
-    default="html",
+    type=click.Choice(["gephi", "mermaid", "d3", "ascii"]),
+    default="ascii",
     show_default=True,
     help="Output format.",
 )
 @click.option("--output", "-o", type=click.Path(), default=None, help="Output file path.")
-@click.pass_context
-def graph(ctx: click.Context, session_name: str | None, fmt: str, output: str | None) -> None:
-    """Generate an entity relationship graph from scan results."""
-    console.print("[yellow]Coming soon:[/yellow] graph visualization")
+def graph_cmd(session_name: str, fmt: str, output: str | None) -> None:
+    """Export an entity relationship graph from a saved session."""
+    import asyncio
+    from osint.graph import export_session_graph
+    from osint.output import print_success
+
+    try:
+        path = asyncio.run(export_session_graph(session_name, fmt, output))
+    except ValueError as exc:
+        console.print(f"[bold red]Error:[/bold red] {exc}")
+        raise SystemExit(1)
+
+    if path:
+        print_success(f"Graph exported: {path}")
 
 
 @cli.command("watch")
-@click.argument("target")
-@click.option("--interval", default=3600, show_default=True, help="Check interval in seconds.")
-@click.option("--alert-email", default=None, help="Email address to notify on change.")
+@click.option("--target", "target", required=True, help="Target to monitor (domain, IP, email, username).")
+@click.option("--module", "module", required=True, help="Module to run (e.g. domain.dns, ip.geo).")
+@click.option("--interval", "interval", default="6h", show_default=True, help="Check interval, e.g. 30m, 6h, 1d.")
+@click.option("--notify-webhook", "notify_webhook", default=None, help="Webhook URL to POST change alerts to.")
+@click.option("--session", "session_base", default=None, help="Base name for watch sessions (default: <target>-watch).")
 @click.pass_context
-def watch(ctx: click.Context, target: str, interval: int, alert_email: str | None) -> None:
+def watch(
+    ctx: click.Context,
+    target: str,
+    module: str,
+    interval: str,
+    notify_webhook: str | None,
+    session_base: str | None,
+) -> None:
     """Continuously monitor a target for changes."""
-    console.print("[yellow]Coming soon:[/yellow] watch / continuous monitoring")
+    import asyncio
+    from rich.panel import Panel as _Panel
+    from osint.watch import WatchTarget, watch_loop, parse_interval
+
+    try:
+        interval_seconds = parse_interval(interval)
+    except (ValueError, AttributeError):
+        console.print(f"[bold red]Error:[/bold red] Invalid interval '{interval}'. Use e.g. 30m, 6h, 1d, 90s.")
+        raise SystemExit(1)
+
+    base = session_base or f"{target.replace('.', '-')}-watch"
+
+    # Infer target_type from module prefix as a reasonable default
+    _type_map = {"domain": "domain", "ip": "ip", "person": "email", "social": "username"}
+    target_type = _type_map.get(module.split(".")[0], "domain")
+
+    wt = WatchTarget(
+        target=target,
+        target_type=target_type,
+        module=module,
+        interval_seconds=interval_seconds,
+        session_base=base,
+        notify_webhook=notify_webhook,
+    )
+
+    # Startup banner
+    webhook_line = f"\n  [bold]Webhook:[/bold]   {notify_webhook}" if notify_webhook else ""
+    console.print(
+        _Panel(
+            f"  [bold]Target:[/bold]    [cyan]{target}[/cyan]  ([dim]{target_type}[/dim])\n"
+            f"  [bold]Module:[/bold]    {module}\n"
+            f"  [bold]Interval:[/bold]  {interval}  ({interval_seconds}s)\n"
+            f"  [bold]Session:[/bold]   {base}-<timestamp>"
+            f"{webhook_line}",
+            title="[bold]Watch Mode[/bold]",
+            subtitle="[dim]Press Ctrl+C to stop[/dim]",
+            border_style="bright_blue",
+            padding=(0, 2),
+        )
+    )
+
+    stop_event = asyncio.Event()
+    try:
+        asyncio.run(watch_loop([wt], stop_event))
+    except KeyboardInterrupt:
+        console.print("\n[dim]Watch mode stopped.[/dim]")
 
 
 @cli.command("server")
-@click.option("--host", default="127.0.0.1", show_default=True, help="Bind host.")
-@click.option("--port", default=8000, show_default=True, help="Bind port.")
+@click.option("--host", default="0.0.0.0", show_default=True, help="Bind host.")
+@click.option("--port", default=8080, show_default=True, type=int, help="Bind port.")
 @click.option("--reload", is_flag=True, default=False, help="Enable auto-reload (dev only).")
-@click.pass_context
-def server(ctx: click.Context, host: str, port: int, reload: bool) -> None:
+def server_cmd(host: str, port: int, reload: bool) -> None:
     """Launch the REST API server."""
-    console.print("[yellow]Coming soon:[/yellow] REST API server")
+    from osint.server import start_server
+    from osint.output import print_panel
+
+    print_panel(
+        "OSINT Tool API Server",
+        f"Starting on http://{host}:{port}\nDocs: http://{host}:{port}/docs",
+    )
+    start_server(host=host, port=port, reload=reload)
 
 
 @cli.command("update-platforms")

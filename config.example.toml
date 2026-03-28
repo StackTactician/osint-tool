@@ -25,3 +25,9 @@ date_format = "%Y-%m-%d %H:%M:%S UTC"
 enabled = false
 url = ""
 tor_socks = "socks5://127.0.0.1:9050"
+
+[server]
+host = "0.0.0.0"
+port = 8080
+# Set a non-empty string to require X-API-Key on all requests.
+api_key = ""

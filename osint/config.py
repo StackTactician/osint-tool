@@ -77,6 +77,17 @@ class ProxyConfig(BaseSettings):
     tor_socks: str = "socks5://127.0.0.1:9050"
 
 
+class ServerConfig(BaseSettings):
+    """REST API server settings."""
+
+    model_config = SettingsConfigDict(extra="ignore")
+
+    host: str = "0.0.0.0"
+    port: int = 8080
+    # When non-empty, every request must supply a matching X-API-Key header.
+    api_key: str = ""
+
+
 # ---------------------------------------------------------------------------
 # Runtime flags (non-persisted, set by CLI at startup)
 # ---------------------------------------------------------------------------
@@ -130,6 +141,7 @@ class Settings(BaseSettings):
     scan: ScanConfig = Field(default_factory=ScanConfig)
     output: OutputConfig = Field(default_factory=OutputConfig)
     proxy: ProxyConfig = Field(default_factory=ProxyConfig)
+    server: ServerConfig = Field(default_factory=ServerConfig)
 
     # Stored for reference only; not read from env.
     config_file: Path = Field(default=_DEFAULT_CONFIG_FILE, exclude=True)
@@ -168,10 +180,11 @@ class Settings(BaseSettings):
         init_kwargs: dict[str, Any] = {"config_file": resolved_path}
 
         section_map = {
-            "keys": KeysConfig,
-            "scan": ScanConfig,
+            "keys":   KeysConfig,
+            "scan":   ScanConfig,
             "output": OutputConfig,
-            "proxy": ProxyConfig,
+            "proxy":  ProxyConfig,
+            "server": ServerConfig,
         }
 
         for section_name, model_cls in section_map.items():
