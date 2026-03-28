@@ -200,16 +200,12 @@ def make_http_client(
     }
     default_headers.update(headers)
 
-    proxy_map: dict[str, str] | None = None
-    if proxy:
-        proxy_map = {"http://": proxy, "https://": proxy}
-
     return httpx.AsyncClient(
         headers=default_headers,
         timeout=httpx.Timeout(timeout),
         follow_redirects=True,
         verify=True,
-        proxies=proxy_map,  # type: ignore[arg-type]
+        proxy=proxy or None,  # httpx >= 0.28 uses `proxy` (singular)
     )
 
 
